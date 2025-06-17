@@ -147,3 +147,7 @@ a {
 .new-message, .new-poke {
     color: #eb4d4b;
 }
+
+.help-text {
+    margin: 30px 10px 10px;
+}

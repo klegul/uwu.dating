@@ -3,10 +3,13 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 {% block extras %}{% endblock %}
 <div class="wrapper">
-    <section class="content">
+    <div>
+        <section class="content">
         {% for message in get_flashed_messages() %}
             <div class="flash">{{ message }}</div>
         {% endfor %}
         {% block content %}{% endblock %}
     </section>
+    <p class="help-text">help, questions? -> <a href="tel:5898">5898</a></p>
+    </div>
 </div>
