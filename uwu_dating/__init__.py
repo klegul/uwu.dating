@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 
-from uwu_dating.bp import user, question, lobby, poke, message
+from uwu_dating.bp import user, question, lobby, poke, message, welcome
 from uwu_dating.bp.lobby import lobby_socket
 
 
@@ -37,5 +37,6 @@ def create_app(test_config=None):
     app.register_blueprint(lobby.bp)
     app.register_blueprint(poke.bp)
     app.register_blueprint(message.bp)
+    app.register_blueprint(welcome.bp)
 
     return app

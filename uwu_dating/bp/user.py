@@ -24,7 +24,7 @@ def user_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            return redirect(url_for('user.create'))
+            return redirect(url_for('welcome.index'))
 
         return view(**kwargs)
 
