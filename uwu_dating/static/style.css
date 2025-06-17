@@ -11,8 +11,12 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    margin-top: 10px;
+    margin-top: 25px;
     margin-bottom: 5px;
+}
+
+h1 {
+    margin-top: 0;
 }
 
 form {
@@ -99,4 +103,47 @@ a {
 
 .question-answer p {
     margin: 2px;
+}
+
+.poke {
+    margin-top: 20px;
+}
+
+.poke p {
+    margin: 0;
+}
+
+.link {
+    background-color: transparent;
+    border: none;
+    color: #be2edd;
+    align-content: start;
+    padding: 0;
+}
+
+.link:hover {
+    border: none !important;
+    cursor: pointer;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+}
+
+.actions a {
+    margin-right: 20px;
+}
+
+.message-sender {
+    margin: 0;
+}
+
+.message-content {
+    margin: 0;
+    color: #cbc9c9;
+}
+
+.new-message, .new-poke {
+    color: #eb4d4b;
 }

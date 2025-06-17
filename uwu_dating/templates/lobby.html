@@ -35,11 +35,26 @@
                 document.getElementById('nobody').style.display = 'none';
             }
         });
+
         socket.on("leave", function (data) {
             document.getElementById(`user-${data.id}`).remove();
-            if (document.getElementById('users').children.length === 0) {
+            if (document.getElementsByClassName('user-card').length === 0) {
                 document.getElementById('nobody').style.display = 'block';
             }
+        })
+
+        socket.on("poke", function () {
+            const poke = document.createElement("p")
+            poke.className = 'new-poke'
+            poke.textContent = 'new poke uwu';
+            document.getElementById('new-things').appendChild(poke);
+        })
+
+        socket.on("message", function () {
+            const message = document.createElement("p")
+            message.className = 'new-message';
+            message.textContent = 'new message, who is this';
+            document.getElementById('new-things').appendChild(message);
         })
     </script>
 {% endblock %}
@@ -48,6 +63,11 @@
 
 {% block content %}
     <h1>Welcome to The Lobby</h1>
+    <div class="actions">
+        <a href="/user/me">my profile (pokes, messages) ></a>
+    </div>
+    <div class="new-things" id="new-things">
+    </div>
     <div id="users">
     </div>
     <h3 id="nobody">nobody here qwq</h3>

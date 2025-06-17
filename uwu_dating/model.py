@@ -29,3 +29,18 @@ class UserAnswer:
     question_number: int
     user_id: int
     answer: str
+
+@dataclass(frozen=True)
+class Poke:
+    id: int
+    poker_id: int
+    poked_id: int
+    acked: bool
+
+@dataclass(frozen=True)
+class Message:
+    id: int
+    sender_id: int
+    recipient_id: int
+    content: str
+    timestamp: int

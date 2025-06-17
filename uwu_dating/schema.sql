@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS question;
 DROP TABLE IF EXISTS answer_choice;
 DROP TABLE IF EXISTS user_answer;
+DROP INDEX IF EXISTS poke;
+DROP INDEX IF EXISTS message;
 
 CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,3 +31,18 @@ CREATE TABLE user_answer (
     question_number INTEGER NOT NULL REFERENCES question(number),
     answer TEXT NOT NULL
 );
+
+CREATE TABLE poke (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    poker_id INTEGER NOT NULL REFERENCES user(id),
+    poked_id INTEGER NOT NULL REFERENCES user(id),
+    acked INTEGER NOT NULL
+);
+
+CREATE TABLE message (
+    id INTEGER PRIMARY KEY AUTOINCREMENT ,
+    sender_id INTEGER NOT NULL REFERENCES user(id),
+    recipient_id INTEGER NOT NULL REFERENCES user(id),
+    content TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+)

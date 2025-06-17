@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Messaging {{ g.recipient.name }}{% endblock %}
+
+{% block content %}
+    <h1>Send a cute message to {{ g.recipient.name }} :3</h1>
+    <form method="post">
+        <label for="content">Content</label>
+        <textarea class="field" name="content" id="content" required></textarea>
+        <input class="submit" type="submit" value="Send away">
+    </form>
+{% endblock %}

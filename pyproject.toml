@@ -3,7 +3,6 @@ name = "uwu-dating"
 version = "0.1.0"
 description = ""
 authors = ["klegul <gregor@klegul.dev>"]
-readme = "README.md"
 packages = [{include = "uwu_dating"}]
 
 [tool.poetry.dependencies]

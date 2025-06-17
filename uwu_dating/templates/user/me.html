@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}me :3{% endblock %}
+
+{% block content %}
+    <div class="actions">
+        <a href="/">< lobby</a>
+    </div>
+    <div class="user-profile">
+        <div>
+            <h1>{{ g.user.name }}</h1>
+            <div class="profile-fact">
+                <object data="{{ url_for('static', filename='icons/phone.svg') }}" type="image/svg+xml"></object>
+                <p>{{ g.user.dect }}</p>
+            </div>
+            <div class="profile-fact">
+                <object data="{{ url_for('static', filename='icons/location.svg') }}" type="image/svg+xml"></object>
+                <p>{{ g.user.meeting_point }}</p>
+            </div>
+        </div>
+
+        <h3>Quwuestions</h3>
+        {% for question, answer in g.questions_answers.items() %}
+            <div class="question-answer">
+                <p class="question">{{ question.question }}</p>
+                <p class="answer">{{ answer.answer }}</p>
+                <a href="/question/answer/{{ question.number }}">edit ></a>
+            </div>
+        {% endfor %}
+
+
+        <h3>Pokes</h3>
+        {% for poke in g.pokes %}
+            <div class="poke">
+                <p class="poker">{{ poke.poker_name }}</p>
+                <div class="actions">
+                    <a href="{{ url_for('poke.ack', id=poke.id) }}">ack ></a>
+                    <a href="{{ url_for('poke.poke', user_id=poke.poker_id) }}">poke back ></a>
+                </div>
+            </div>
+        {% endfor %}
+        {% if g.pokes|length == 0 %}
+            <p>no unacked pokes</p>
+        {% endif %}
+
+        <h3>Messages</h3>
+        {% for message in g.messages %}
+            <div class="message">
+                <p class="message-sender">{{ message.sender_name }}</p>
+                <p class="message-content">{{ message.content }}</p>
+                <div class="actions">
+                    <a href="/message/send/{{ message.sender_id }}">answer ></a>
+                    <a href="/message/delete/{{ message.id }}">delete ></a>
+                </div>
+            </div>
+        {% endfor %}
+        {% if g.messages|length == 0 %}
+            <p>no one messaged you yet qwq</p>
+        {% endif %}
+    </div>
+{% endblock %}

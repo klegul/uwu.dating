@@ -3,6 +3,9 @@
 {% block title %}{{ g.user.name }}{% endblock %}
 
 {% block content %}
+    <div class="actions">
+        <a href="/">< lobby</a>
+    </div>
     <div class="user-profile">
         <div class="side-by-side">
             <div>
@@ -15,9 +18,14 @@
                     <object data="{{ url_for('static', filename='icons/location.svg') }}" type="image/svg+xml"></object>
                     <p>{{ g.profile_user.meeting_point }}</p>
                 </div>
+                <div class="actions">
+                    <a href="{{ url_for('poke.poke', user_id=g.profile_user.id) }}">poke ></a>
+                    <a href="{{ url_for('message.send', recipient_id=g.profile_user.id) }}">send message ></a>
+                </div>
             </div>
             <p>{{ g.user_score * 100 }}%</p>
         </div>
+
         <h3>Quwuestions</h3>
         {% for question, answer in g.questions_answers.items() %}
             <div class="question-answer">
