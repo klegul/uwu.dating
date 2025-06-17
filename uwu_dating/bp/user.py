@@ -1,6 +1,8 @@
 import functools
+import os
 from typing import List, Dict, Any
 
+import requests
 from flask import Blueprint, request, redirect, url_for, session, g, flash, render_template
 
 from uwu_dating.db import create_user, get_user, get_user_answers_for_questions, get_unacked_pokes, get_messages
@@ -96,3 +98,11 @@ def me():
     g.questions_answers = get_user_answers_for_questions(g.user.id)
 
     return render_template('user/me.html')
+
+@bp.route('/report/<int:id>', methods=['GET'])
+@user_required
+def report(id: int):
+    url = os.environ.get('REPORT_URL')
+    requests.post(url, json={'reporter_id': g.user.id, "reported_id": id})
+
+    return redirect(url_for('lobby.index'))

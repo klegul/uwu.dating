@@ -21,6 +21,7 @@
                 <div class="actions">
                     <a href="{{ url_for('poke.poke', user_id=g.profile_user.id) }}">poke ></a>
                     <a href="{{ url_for('message.send', recipient_id=g.profile_user.id) }}">send message ></a>
+                    <a href="{{ url_for('user.report', id=g.profile_user.id) }}">report ></a>
                 </div>
             </div>
             <p>{{ g.user_score * 100 }}%</p>
