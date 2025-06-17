@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Question {{ g.question.number }}{% endblock %}
+
+{% block content %}
+    <h1>Hii {{ g.user.name }}, lets answers some questions</h1>
+    <form method="post">
+        <label for="answer">{{ g.question.question }}</label>
+        <input class="field" name="answer" id="answer" type="{{ g.question.type }}" required>
+        <input class="submit" type="submit" value="{{ g.question.submit_label }}">
+    </form>
+{% endblock %}

@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "uwu-dating"
+version = "0.1.0"
+description = ""
+authors = ["klegul <gregor@klegul.dev>"]
+readme = "README.md"
+packages = [{include = "uwu_dating"}]
+
+[tool.poetry.dependencies]
+python = "^3.13"
+flask = "^3.1.1"
+flask_socketio = "^5.5.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

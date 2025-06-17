@@ -1,0 +1,102 @@
+@font-face {
+    font-family: 'Kode Mono';
+    src: url('/static/fonts/KodeMono.ttf') format('truetype');
+}
+
+body {
+    background: black;
+    color: white;
+    font-family: 'Kode Mono', monospace, sans-serif;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+input {
+    background: #151B23;
+    border: #3D444D 1px solid;
+    border-radius: 5px;
+    transition: border 0.1s ease-in;
+    color: white;
+    padding: 5px;
+
+}
+
+input.field {
+    margin-bottom: 20px;
+}
+
+input.submit {
+    margin-top: 20px;
+}
+
+input:focus {
+    outline: none;
+    border: #be2edd 1px solid;
+}
+
+label {
+    margin-bottom: 3px;
+}
+
+a {
+    text-decoration: none;
+    color: #be2edd;
+}
+
+.wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    border: #3C434C 1px solid;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 20px;
+    min-width: 300px;
+}
+
+.side-by-side {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.profile-fact {
+    display: flex;
+    flex-direction: row;
+    margin: 10px 0;
+}
+
+.profile-fact object {
+    margin-right: 5px;
+}
+
+.profile-fact p {
+    margin: 0;
+}
+
+.question-answer {
+    margin: 15px 0;
+}
+
+.question-answer .answer {
+    color: #cbc9c9;
+}
+
+.question-answer p {
+    margin: 2px;
+}

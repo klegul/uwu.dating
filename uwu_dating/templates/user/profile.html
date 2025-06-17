@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ g.user.name }}{% endblock %}
+
+{% block content %}
+    <div class="user-profile">
+        <div class="side-by-side">
+            <div>
+                <h2>{{ g.profile_user.name }}</h2>
+                <div class="profile-fact">
+                    <object data="{{ url_for('static', filename='icons/phone.svg') }}" type="image/svg+xml"></object>
+                    <p>{{ g.profile_user.dect }}</p>
+                </div>
+                <div class="profile-fact">
+                    <object data="{{ url_for('static', filename='icons/location.svg') }}" type="image/svg+xml"></object>
+                    <p>{{ g.profile_user.meeting_point }}</p>
+                </div>
+            </div>
+            <p>{{ g.user_score * 100 }}%</p>
+        </div>
+        <h3>Quwuestions</h3>
+        {% for question, answer in g.questions_answers.items() %}
+            <div class="question-answer">
+                <p class="question">{{ question.question }}</p>
+                <p class="answer">{{ answer.answer }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
