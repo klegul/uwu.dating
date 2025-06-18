@@ -4,7 +4,7 @@
     <script src="{{ url_for('static', filename='socket.io.min.js') }}"></script>
     <script>
         const socket = io();
-        socket.emit("join", {{ g.user.id }});
+        socket.emit("hello", {{ g.user.id }});
 
         socket.on("join", function (data) {
             if (data.id !== {{ g.user.id }}) {

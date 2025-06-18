@@ -19,7 +19,7 @@ def index():
     return render_template('lobby.html')
 
 
-@lobby_socket.on('join')
+@lobby_socket.on('hello')
 def handle_join(user_id):
     if not user_exists(user_id):
         raise Exception('User not found')
