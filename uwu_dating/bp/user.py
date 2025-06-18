@@ -57,6 +57,12 @@ def create():
 
     return render_template('user/create.html')
 
+@bp.route('/logout', methods=['GET'])
+def logout():
+    session.clear()
+    return redirect(url_for('welcome.index'))
+
+
 @bp.route('/profile/<int:id>', methods=['GET'])
 @user_required
 def profile(id: int):

@@ -1,11 +1,10 @@
 from typing import List, Dict
 
-from flask import render_template, request, g, Blueprint
+from flask import render_template, request, Blueprint
 from flask_socketio import emit, SocketIO
 
 from uwu_dating.bp.user import user_required
-from uwu_dating.db import user_exists, get_users, get_user, get_user_answers, count_questions
-from uwu_dating.model import User
+from uwu_dating.db import user_exists, get_user
 from uwu_dating.utils import get_user_score
 
 bp = Blueprint('lobby', __name__)

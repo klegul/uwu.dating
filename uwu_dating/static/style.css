@@ -135,6 +135,15 @@ a {
     margin-right: 20px;
 }
 
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.column a {
+    margin-bottom: 10px;
+}
+
 .message-sender {
     margin: 0;
 }
