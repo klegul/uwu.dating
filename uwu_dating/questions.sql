@@ -35,3 +35,6 @@ INSERT into answer_choice
 VALUES (4, 3, 'Spliceworkshop - Das Löten der Glasfaser');
 INSERT into answer_choice
 VALUES (4, 4, 'Platinendesign mit KiCad');
+
+INSERT INTO question
+VALUES (5, 'please describe everything you in believe in one sentence', 'text', 'send');
