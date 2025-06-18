@@ -4,9 +4,10 @@ from datetime import datetime
 from typing import List, Dict, Any
 
 import click
+from click import Choice
 from flask import current_app, g
 
-from uwu_dating.model import User, UserAnswer, Question, Poke, Message
+from uwu_dating.model import User, UserAnswer, Question, Poke, Message, AnswerChoice
 
 
 def get_db():
@@ -128,6 +129,15 @@ def count_questions() -> int:
     return db.execute('SELECT COUNT(*) FROM question').fetchone()[0]
 
 
+def get_answer_choices() -> List[AnswerChoice]:
+    db = get_db()
+    answer_choices = db.execute('SELECT * FROM answer_choice ORDER BY number').fetchall()
+    result_list: List[AnswerChoice] = []
+    for answer_choice in answer_choices:
+        result_list.append(_parse_answer_choice(answer_choice))
+    return result_list
+
+
 def create_poke(poker_id: int, poked_id: int) -> Poke:
     db = get_db()
     cursor = db.cursor()
@@ -179,6 +189,7 @@ def get_messages(recipient_id: int) -> List[Message]:
         result_list.append(_parse_message(message))
     return result_list
 
+
 def delete_message(id: int) -> None:
     db = get_db()
     db.execute('DELETE FROM message WHERE id = ?', (id,))
@@ -192,6 +203,11 @@ def _parse_user(db_user: Dict[str, Any]) -> User:
 def _parse_question(db_question: Dict[str, Any]) -> Question:
     return Question(number=db_question['number'], question=db_question['question'], type=db_question['type'],
                     submit_label=db_question['submit_label'])
+
+
+def _parse_answer_choice(db_answer_choice: Dict[str, Any]) -> AnswerChoice:
+    return AnswerChoice(question_number=db_answer_choice['question_number'], number=db_answer_choice['number'],
+                        answer=db_answer_choice['answer'])
 
 
 def _parse_poke(db_poke: Dict[str, Any]) -> Poke:

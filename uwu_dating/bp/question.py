@@ -1,7 +1,10 @@
+from typing import List, Dict
+
 from flask import Blueprint, request, render_template, g, redirect, url_for
 
-from uwu_dating.db import create_user_answer, count_questions, get_question
+from uwu_dating.db import create_user_answer, count_questions, get_question, get_answer_choices
 from uwu_dating.bp.user import user_required
+from uwu_dating.model import AnswerChoice
 
 bp = Blueprint('question', __name__, url_prefix='/question')
 
@@ -19,4 +22,12 @@ def answer(number: int):
             return redirect(url_for('question.answer', number=number + 1))
         return redirect(url_for('lobby.index'))
     else:
+        answer_choices = get_answer_choices()
+        template_answer_choices: Dict[int, List[AnswerChoice]] = {}
+        for answer_choice in answer_choices:
+            if answer_choice.question_number not in template_answer_choices:
+                template_answer_choices[answer_choice.question_number] = []
+            template_answer_choices[answer_choice.question_number].append(answer_choice)
+        g.answer_choices = template_answer_choices
+
         return render_template('question.html')

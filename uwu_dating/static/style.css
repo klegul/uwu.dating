@@ -57,6 +57,28 @@ a {
     color: #be2edd;
 }
 
+select {
+    background: #151B23;
+    color: white;
+    border: #3D444D 1px solid;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+textarea {
+    background: #151B23;
+    color: white;
+    border: #3D444D 1px solid;
+    border-radius: 5px;
+    padding: 5px;
+    transition: border 0.1s ease-in;
+}
+
+textarea:focus {
+    outline: none;
+    border: #be2edd 1px solid;
+}
+
 .wrapper {
     height: 100%;
     width: 100%;
