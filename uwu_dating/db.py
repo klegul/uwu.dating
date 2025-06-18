@@ -83,6 +83,11 @@ def get_users() -> List[User]:
     return result_list
 
 
+def count_users() -> int:
+    db = get_db()
+    return db.execute('SELECT COUNT(*) FROM user').fetchone()[0]
+
+
 def create_user_answer(user_id: int, question_number: int, answer: str) -> UserAnswer:
     db = get_db()
 
@@ -170,6 +175,16 @@ def ack_poke(id: int) -> None:
     db.commit()
 
 
+def count_pokes() -> int:
+    db = get_db()
+    return db.execute('SELECT COUNT(*) FROM poke').fetchone()[0]
+
+
+def count_acked_pokes() -> int:
+    db = get_db()
+    return db.execute('SELECT COUNT(*) FROM poke WHERE acked = 1').fetchone()[0]
+
+
 def create_message(sender_id: int, recipient_id: int, content: str) -> Message:
     db = get_db()
     cursor = db.cursor()
@@ -194,6 +209,11 @@ def delete_message(id: int) -> None:
     db = get_db()
     db.execute('DELETE FROM message WHERE id = ?', (id,))
     db.commit()
+
+
+def count_messages() -> int:
+    db = get_db()
+    return db.execute('SELECT COUNT(*) FROM message').fetchone()[0]
 
 
 def _parse_user(db_user: Dict[str, Any]) -> User:
