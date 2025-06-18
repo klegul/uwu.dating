@@ -324,6 +324,20 @@ files = [
 ]
 
 [[package]]
+name = "prometheus-client"
+version = "0.22.1"
+description = "Python client for the Prometheus monitoring system."
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "prometheus_client-0.22.1-py3-none-any.whl", hash = "sha256:cca895342e308174341b2cbf99a56bef291fbc0ef7b9e5412a0f26d653ba7094"},
+    {file = "prometheus_client-0.22.1.tar.gz", hash = "sha256:190f1331e783cf21eb60bca559354e0a4d4378facecf78f5428c39b675d20d28"},
+]
+
+[package.extras]
+twisted = ["twisted"]
+
+[[package]]
 name = "python-engineio"
 version = "4.12.2"
 description = "Engine.IO server and client for Python"
@@ -452,4 +466,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "e9a7350888697b29af59032b725494ec6c41fedf5ff09e8a7c01e829ac267114"
+content-hash = "88d1d9bf2fb0caa45a044032388f89707af1bd898c8fa8ed76e4f5d9a0cb2cc0"

@@ -5,6 +5,7 @@ from flask_socketio import emit, SocketIO
 
 from uwu_dating.bp.user import user_required
 from uwu_dating.db import user_exists, get_user
+from uwu_dating.prometheus import lobby_current_connected
 from uwu_dating.utils import get_user_score
 
 bp = Blueprint('lobby', __name__)
@@ -38,8 +39,12 @@ def handle_join(user_id):
                 'score': get_user_score(for_user, other_user)
             }, to=sid)
 
+    lobby_current_connected.inc(1)
+
 @lobby_socket.on('disconnect')
 def handle_disconnect():
     user_id = users[request.sid]
     users.pop(request.sid)
     emit('leave', {'id': user_id}, broadcast=True)
+
+    lobby_current_connected.dec(1)

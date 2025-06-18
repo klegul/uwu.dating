@@ -1,5 +1,6 @@
 import os
 
+import prometheus_client
 from flask import Flask
 
 from uwu_dating.bp import user, question, lobby, poke, message, welcome
@@ -28,6 +29,8 @@ def create_app(test_config=None):
         pass
 
     lobby_socket.init_app(app)
+
+    prometheus_client.start_http_server(8000)
 
     from . import db
     db.init_app(app)
