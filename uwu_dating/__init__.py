@@ -43,6 +43,6 @@ def create_app(test_config=None):
     app.register_blueprint(message.bp)
     app.register_blueprint(welcome.bp)
 
-    init_scheduler(app)
+    #init_scheduler(app)
 
     return app
