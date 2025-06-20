@@ -29,7 +29,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    lobby_socket.init_app(app)
+    lobby_socket.init_app(app, cors_allowed_origins=["https://uwu.dating", "http://127.0.0.1:5000"])
 
     prometheus_client.start_http_server(8000)
 
