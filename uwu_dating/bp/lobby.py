@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import Dict
 
 from flask import render_template, request, Blueprint
 from flask_socketio import emit, SocketIO
@@ -27,6 +27,8 @@ def handle_join(user_id):
 
     users[request.sid] = user_id
 
+    lobby_current_connected.inc(1)
+
     for sid, for_user_id in users.items():
         for_user = get_user(int(for_user_id))
         for other_user_id in users.values():
@@ -38,8 +40,6 @@ def handle_join(user_id):
                 'name': other_user.name,
                 'score': get_user_score(for_user, other_user)
             }, to=sid)
-
-    lobby_current_connected.inc(1)
 
 @lobby_socket.on('disconnect')
 def handle_disconnect():

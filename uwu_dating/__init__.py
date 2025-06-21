@@ -5,7 +5,6 @@ from flask import Flask
 
 from uwu_dating.bp import user, question, lobby, poke, message, welcome
 from uwu_dating.bp.lobby import lobby_socket
-from uwu_dating.prometheus import scheduler, init_scheduler
 
 
 def create_app(test_config=None):
@@ -42,7 +41,5 @@ def create_app(test_config=None):
     app.register_blueprint(poke.bp)
     app.register_blueprint(message.bp)
     app.register_blueprint(welcome.bp)
-
-    #init_scheduler(app)
 
     return app
