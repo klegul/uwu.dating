@@ -1,18 +1,23 @@
-[tool.poetry]
+[project]
 name = "uwu-dating"
 version = "0.1.0"
 description = ""
-authors = ["klegul <gregor@klegul.dev>"]
+authors = [
+    {name = "klegul", email = "gregor@klegul.de"}
+]
 packages = [{include = "uwu_dating"}]
-
-[tool.poetry.dependencies]
-python = "^3.13"
-flask = "^3.1.1"
-flask_socketio = "^5.5.1"
-requests = "^2.32.4"
-prometheus-client = "^0.22.1"
-flask-apscheduler = "^1.13.1"
+requires-python = ">=3.14"
+dependencies = [
+    "flask==3.1.2",
+    "Flask-SocketIO==5.5.1",
+    "requests==2.32.5",
+    "prometheus-client==0.23.1",
+    "flask-apscheduler==1.13.1"
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.9.17,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = ""
