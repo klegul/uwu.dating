@@ -1,18 +1,61 @@
 @font-face {
-    font-family: 'Kode Mono';
-    src: url('/static/fonts/KodeMono.ttf') format('truetype');
+    font-family: 'KarioDuplexVar';
+    src: URL('fonts/Kario39C3VarWEB-Roman.woff') format('woff');
+    src: URL('fonts/Kario39C3VarWEB-Roman.woff2') format('woff2');
+}
+
+:root {
+    --color-dark: #141414;
+    --color-lighter: #242424;
+    --color-neutral: #faf5f5;
+    --color-primary: #00ff00;
+    --color-secondary: #9673ff;
+    --color-additional-01: #ff3719;
+    --color-additional-02: #66f2ff;
+
+    --color-primary-tint-01: #009900;
+    --color-primary-tint-02: #00be00;
+    --color-primary-tint-03: #00d300;
+    --color-primary-tint-04: #00ea00;
+    --color-primary-tint-05: #a3ff90;
+    --color-primary-tint-06: #ccffbe;
+    --color-primary-tint-07: #ebffe5;
+
+    --color-secondary-tint-01: #4d2eed;
+    --color-secondary-tint-02: #5c33f4;
+    --color-secondary-tint-03: #7952fe;
+    --color-secondary-tint-04: #b69dfe;
+    --color-secondary-tint-05: #d4c4fe;
+    --color-secondary-tint-06: #efe7ff;
+}
+
+@keyframes font_weight_wave {
+    from {
+        font-weight: 10;
+    } to {
+        font-weight: 100;
+    }
+}
+
+p, label, a {
+    font-weight: 40;
+    font-variation-settings: "opsz" 140;
 }
 
 body {
-    background: black;
+    background: var(--color-dark);
     color: white;
-    font-family: 'Kode Mono', monospace, sans-serif;
+    font-family: 'KarioDuplexVar', sans-serif;
     margin: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
+    font-weight: 100;
     margin-top: 25px;
     margin-bottom: 5px;
+    background-color: var(--color-secondary);
+    color: var(--color-dark);
+    padding: 3px;
 }
 
 h1 {
@@ -28,11 +71,9 @@ form {
 input {
     background: #151B23;
     border: #3D444D 1px solid;
-    border-radius: 5px;
     transition: border 0.1s ease-in;
     color: white;
     padding: 5px;
-
 }
 
 input.field {
@@ -45,7 +86,7 @@ input.submit {
 
 input:focus {
     outline: none;
-    border: #be2edd 1px solid;
+    border: var(--color-secondary) 1px solid;
 }
 
 label {
@@ -54,7 +95,7 @@ label {
 
 a {
     text-decoration: none;
-    color: #be2edd;
+    color: var(--color-primary);
 }
 
 select {
@@ -76,7 +117,7 @@ textarea {
 
 textarea:focus {
     outline: none;
-    border: #be2edd 1px solid;
+    border: var(--color-secondary) 1px solid;
 }
 
 .wrapper {
@@ -89,7 +130,6 @@ textarea:focus {
 
 .content {
     border: #3C434C 1px solid;
-    border-radius: 10px;
     margin: 10px;
     padding: 20px;
     min-width: 300px;
@@ -124,7 +164,7 @@ textarea:focus {
 }
 
 .question-answer p {
-    margin: 2px;
+    margin: 2px 0px;
 }
 
 .poke {
@@ -138,7 +178,7 @@ textarea:focus {
 .link {
     background-color: transparent;
     border: none;
-    color: #be2edd;
+    color: var(--color-primary);
     align-content: start;
     padding: 0;
 }
@@ -176,7 +216,7 @@ textarea:focus {
 }
 
 .new-message, .new-poke {
-    color: #eb4d4b;
+    color: var(--color-additional-01);
 }
 
 .help-text {
