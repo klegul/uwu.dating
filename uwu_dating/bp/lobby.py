@@ -1,6 +1,6 @@
 from typing import Dict
 
-from flask import render_template, request, Blueprint, g
+from flask import render_template, request, Blueprint, g, abort
 from flask_socketio import emit, SocketIO
 
 from uwu_dating.bp.user import user_required
@@ -25,6 +25,9 @@ def index():
 def handle_join(user_id):
     if not user_exists(user_id):
         raise Exception('User not found')
+
+    if user_id in users.values():
+        abort(400)
 
     users[request.sid] = user_id
 
