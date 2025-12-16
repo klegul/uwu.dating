@@ -13,6 +13,6 @@ RUN uv sync --no-dev --locked --no-editable
 
 RUN chmod -R o=rx /app
 
-EXPOSE 8080
+EXPOSE 9090
 
-CMD ["uv", "run", "gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "wsgi:app"]
+CMD ["uv", "run", "gunicorn", "-b", "0.0.0.0:9090", "wsgi:app"]
