@@ -423,6 +423,7 @@ dependencies = [
     { name = "flask-socketio" },
     { name = "gevent-websocket" },
     { name = "gunicorn" },
+    { name = "markupsafe" },
     { name = "prometheus-client" },
     { name = "requests" },
 ]
@@ -434,6 +435,7 @@ requires-dist = [
     { name = "flask-socketio", specifier = "==5.5.1" },
     { name = "gevent-websocket", specifier = ">=0.10.1" },
     { name = "gunicorn", specifier = "==23.0.0" },
+    { name = "markupsafe", specifier = ">=3.0.3" },
     { name = "prometheus-client", specifier = "==0.23.1" },
     { name = "requests", specifier = "==2.32.5" },
 ]

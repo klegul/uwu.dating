@@ -154,6 +154,10 @@ def create_poke(poker_id: str, poked_id: str) -> Poke:
     db.commit()
     return Poke(id=poke_id, poker_id=poker_id, poked_id=poked_id, acked=False)
 
+def poke_exists(poke_id: str) -> bool:
+    db = get_db()
+    return db.execute('SELECT COUNT(*) FROM poke WHERE id = ?', (poke_id,)).fetchone()[0] > 0
+
 
 def get_unacked_pokes(poked_id: str) -> List[Poke]:
     db = get_db()

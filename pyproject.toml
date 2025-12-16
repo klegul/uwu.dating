@@ -15,6 +15,7 @@ dependencies = [
     "flask-apscheduler==1.13.1",
     "gunicorn==23.0.0",
     "gevent-websocket>=0.10.1",
+    "markupsafe>=3.0.3",
 ]
 
 [build-system]

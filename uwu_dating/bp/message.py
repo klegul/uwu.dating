@@ -1,9 +1,10 @@
-from flask import Blueprint, request, g, redirect, url_for, render_template
+from flask import Blueprint, request, g, redirect, url_for, render_template, abort
+from markupsafe import escape
 
 from uwu_dating.bp.lobby import lobby_socket
 from uwu_dating.bp import lobby
 from uwu_dating.bp.user import user_required
-from uwu_dating.db import create_message, get_user, delete_message
+from uwu_dating.db import create_message, get_user, delete_message, user_exists
 
 bp = Blueprint('message', __name__, url_prefix='/message')
 
@@ -11,7 +12,10 @@ bp = Blueprint('message', __name__, url_prefix='/message')
 @user_required
 def send(recipient_id: str):
     if request.method == 'POST':
-        content = request.form['content']
+        if not user_exists(recipient_id):
+            abort(400)
+
+        content = escape(request.form['content'])
 
         create_message(g.user.id, recipient_id, content)
 

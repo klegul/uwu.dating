@@ -1,11 +1,15 @@
 import functools
 import os
+import re
 from typing import List, Dict, Any
 
 import requests
-from flask import Blueprint, request, redirect, url_for, session, g, flash, render_template
+from flask import Blueprint, request, redirect, url_for, session, g, flash, render_template, abort
 
-from uwu_dating.db import create_user, get_user, get_user_answers_for_questions, get_unacked_pokes, get_messages
+from markupsafe import escape
+
+from uwu_dating.db import create_user, get_user, get_user_answers_for_questions, get_unacked_pokes, get_messages, \
+    user_exists
 from uwu_dating.utils import get_user_score
 
 bp = Blueprint('user', __name__, url_prefix='/user')
@@ -36,11 +40,14 @@ def user_required(view):
 def create():
     if request.method == 'POST':
 
-        name = request.form.get('name')
-        dect = request.form.get('dect')
-        meeting_point = request.form.get('meeting_point')
+        name = escape(request.form.get('name'))
+        dect = escape(request.form.get('dect'))
+        meeting_point = escape(request.form.get('meeting_point'))
 
         error = None
+
+        if not re.match(r'^\d{1,9}$', dect):
+            error = 'Invalid DECT'
 
         if not name:
             error = 'Name is required'
@@ -66,6 +73,9 @@ def logout():
 @bp.route('/profile/<user_id>', methods=['GET'])
 @user_required
 def profile(user_id: str):
+    if not user_exists(user_id):
+        abort(400)
+
     g.profile_user = get_user(user_id)
 
     g.questions_answers = get_user_answers_for_questions(g.profile_user.id)
@@ -107,7 +117,10 @@ def me():
 
 @bp.route('/report/<user_id>', methods=['GET'])
 @user_required
-def report(user_id: int):
+def report(user_id: str):
+    if not user_exists(user_id):
+        abort(400)
+
     url = os.environ.get('REPORT_URL')
     requests.post(url, json={'reporter_id': g.user.id, "reported_id": user_id})
 

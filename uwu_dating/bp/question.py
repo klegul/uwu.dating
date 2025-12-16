@@ -1,6 +1,7 @@
 from typing import List, Dict
 
 from flask import Blueprint, request, render_template, g, redirect, url_for
+from markupsafe import escape
 
 from uwu_dating.db import create_user_answer, count_questions, get_question, get_answer_choices
 from uwu_dating.bp.user import user_required
@@ -14,7 +15,7 @@ bp = Blueprint('question', __name__, url_prefix='/question')
 def answer(number: int):
     g.question = get_question(number)
     if request.method == 'POST':
-        answer_text = request.form['answer']
+        answer_text = escape(request.form['answer'])
 
         create_user_answer(g.user.id, number, answer_text)
 
