@@ -15,4 +15,4 @@ RUN chmod -R o=rx /app
 
 EXPOSE 8080
 
-CMD ["uv", "run", "gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "uwu_dating:app"]
+CMD ["uv", "run", "gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "wsgi:app"]

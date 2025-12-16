@@ -5,6 +5,7 @@ from flask import Flask
 
 from uwu_dating.bp import user, question, lobby, poke, message, welcome
 from uwu_dating.bp.lobby import lobby_socket
+from uwu_dating.db import init_db
 
 
 def create_app(test_config=None):

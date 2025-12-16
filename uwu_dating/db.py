@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import time
 import uuid
@@ -13,6 +14,14 @@ from uwu_dating.model import User, UserAnswer, Question, Poke, Message, AnswerCh
 
 def get_db():
     if 'db' not in g:
+        if not os.path.exists(current_app.config['DATABASE']):
+            open(current_app.config['DATABASE'], 'x').close()
+            db = sqlite3.connect(
+                current_app.config['DATABASE'],
+                detect_types=sqlite3.PARSE_DECLTYPES
+            )
+            init_db(db)
+
         g.db = sqlite3.connect(
             current_app.config['DATABASE'],
             detect_types=sqlite3.PARSE_DECLTYPES
@@ -29,18 +38,12 @@ def close_db(e=None):
         db.close()
 
 
-def init_db():
-    db = get_db()
-
+def init_db(db: sqlite3.Connection):
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
-
-@click.command('init-db')
-def init_db_command():
-    """Clear the existing data and create new tables."""
-    init_db()
-    click.echo('Initialized the database.')
+    with current_app.open_resource('questions.sql') as f:
+        db.executescript(f.read().decode('utf8'))
 
 
 sqlite3.register_converter(
@@ -50,13 +53,13 @@ sqlite3.register_converter(
 
 def init_app(app):
     app.teardown_appcontext(close_db)
-    app.cli.add_command(init_db_command)
 
 
 def create_user(name: str, dect: str, meeting_point: str) -> User:
     db = get_db()
     user_id = str(uuid.uuid4())
-    db.execute('INSERT INTO user (id, name, dect, meeting_point) VALUES (?, ?, ?, ?)', (user_id, name, dect, meeting_point))
+    db.execute('INSERT INTO user (id, name, dect, meeting_point) VALUES (?, ?, ?, ?)',
+               (user_id, name, dect, meeting_point))
     db.commit()
 
     return User(id=user_id, name=name, dect=dect, meeting_point=meeting_point)
@@ -184,6 +187,7 @@ def count_acked_pokes() -> int:
     db = get_db()
     return db.execute('SELECT COUNT(*) FROM poke WHERE acked = 1').fetchone()[0]
 
+
 def count_unacked_pokes(user_id: str) -> int:
     db = get_db()
     return db.execute('SELECT COUNT(*) FROM poke WHERE acked = 0 AND poked_id = ?', (user_id,)).fetchone()[0]
@@ -194,7 +198,7 @@ def create_message(sender_id: str, recipient_id: str, content: str) -> Message:
     timestamp = int(time.time())
     message_id = str(uuid.uuid4())
     db.execute('INSERT INTO message (id, sender_id, recipient_id, content, timestamp) VALUES (?, ?, ?, ?, ?)',
-                   (message_id, sender_id, recipient_id, content, timestamp))
+               (message_id, sender_id, recipient_id, content, timestamp))
     db.commit()
     return Message(id=message_id, sender_id=sender_id, recipient_id=recipient_id, content=content, timestamp=timestamp)
 
@@ -217,6 +221,7 @@ def delete_message(message_id: str) -> None:
 def count_messages() -> int:
     db = get_db()
     return db.execute('SELECT COUNT(*) FROM message').fetchone()[0]
+
 
 def count_user_messages(user_id: str) -> int:
     db = get_db()
