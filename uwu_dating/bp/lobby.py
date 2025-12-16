@@ -10,7 +10,7 @@ from uwu_dating.utils import get_user_score
 
 bp = Blueprint('lobby', __name__)
 
-lobby_socket = SocketIO()
+lobby_socket = SocketIO(async_mode="gevent")
 users: Dict[str, str] = {}
 
 

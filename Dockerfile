@@ -15,4 +15,4 @@ RUN chmod -R o=rx /app
 
 EXPOSE 9090
 
-CMD ["uv", "run", "gunicorn", "-b", "0.0.0.0:9090", "wsgi:app"]
+CMD ["uv", "run", "gunicorn", "-k", "geventwebsocket.gunicorn.workers.GeventWebSocketWorker", "-b", "0.0.0.0:9090", "wsgi:app"]
