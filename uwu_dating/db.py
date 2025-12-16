@@ -91,6 +91,14 @@ def count_users() -> int:
     db = get_db()
     return db.execute('SELECT COUNT(*) FROM user').fetchone()[0]
 
+def delete_user(user_id: str) -> None:
+    db = get_db()
+    db.execute('DELETE FROM user where id = ?', (user_id,))
+    db.execute('DELETE FROM user_answer where user_id = ?', (user_id,))
+    db.execute('DELETE FROM poke where poked_id = ? or poker_id = ?', (user_id,user_id))
+    db.execute('DELETE FROM message where sender_id = ? or recipient_id = ?', (user_id,user_id))
+    db.commit()
+
 
 def create_user_answer(user_id: str, question_number: int, answer: str) -> UserAnswer:
     db = get_db()

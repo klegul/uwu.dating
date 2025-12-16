@@ -9,7 +9,7 @@ from flask import Blueprint, request, redirect, url_for, session, g, flash, rend
 from markupsafe import escape
 
 from uwu_dating.db import create_user, get_user, get_user_answers_for_questions, get_unacked_pokes, get_messages, \
-    user_exists
+    user_exists, delete_user
 from uwu_dating.utils import get_user_score
 
 bp = Blueprint('user', __name__, url_prefix='/user')
@@ -64,11 +64,6 @@ def create():
 
     return render_template('user/create.html')
 
-@bp.route('/logout', methods=['GET'])
-def logout():
-    session.clear()
-    return redirect(url_for('welcome.index'))
-
 
 @bp.route('/profile/<user_id>', methods=['GET'])
 @user_required
@@ -114,6 +109,14 @@ def me():
     g.questions_answers = get_user_answers_for_questions(g.user.id)
 
     return render_template('user/me.html')
+
+@bp.route('/me/delete', methods=['GET'])
+@user_required
+def delete_me():
+    delete_user(g.user.id)
+    session.clear()
+
+    return redirect(url_for('welcome'))
 
 @bp.route('/report/<user_id>', methods=['GET'])
 @user_required
