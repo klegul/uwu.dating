@@ -34,7 +34,7 @@
             <div class="poke">
                 <p class="poker">{{ poke.poker_name }}</p>
                 <div class="actions">
-                    <a href="{{ url_for('poke.ack', id=poke.id) }}">ack ></a>
+                    <a href="{{ url_for('poke.ack', poke_id=poke.id) }}">ack ></a>
                     <a href="{{ url_for('poke.poke', user_id=poke.poker_id) }}">poke back ></a>
                 </div>
             </div>

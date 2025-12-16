@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS poke;
 DROP TABLE IF EXISTS message;
 
 CREATE TABLE user (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
     dect TEXT,
     meeting_point TEXT
@@ -27,22 +27,22 @@ CREATE TABLE answer_choice (
 );
 
 CREATE TABLE user_answer (
-    user_id INTEGER NOT NULL REFERENCES user(id),
+    user_id TEXT NOT NULL REFERENCES user(id),
     question_number INTEGER NOT NULL REFERENCES question(number),
     answer TEXT NOT NULL
 );
 
 CREATE TABLE poke (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    poker_id INTEGER NOT NULL REFERENCES user(id),
-    poked_id INTEGER NOT NULL REFERENCES user(id),
+    id TEXT PRIMARY KEY,
+    poker_id TEXT NOT NULL REFERENCES user(id),
+    poked_id TEXT NOT NULL REFERENCES user(id),
     acked INTEGER NOT NULL
 );
 
 CREATE TABLE message (
-    id INTEGER PRIMARY KEY AUTOINCREMENT ,
-    sender_id INTEGER NOT NULL REFERENCES user(id),
-    recipient_id INTEGER NOT NULL REFERENCES user(id),
+    id TEXT PRIMARY KEY ,
+    sender_id TEXT NOT NULL REFERENCES user(id),
+    recipient_id TEXT NOT NULL REFERENCES user(id),
     content TEXT NOT NULL,
     timestamp INTEGER NOT NULL
 )

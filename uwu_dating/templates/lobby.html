@@ -3,17 +3,24 @@
 {% block extras %}
     <script src="{{ url_for('static', filename='socket.io.min.js') }}"></script>
     <script>
-        const socket = io();
-        socket.emit("hello", {{ g.user.id }});
+        const socket = io({
+        reconnection: true,
+        reconnectionAttempts: 10000,
+        reconnectionDelay: 1000,
+    });
+        socket.emit("hello", "{{ g.user.id }}");
+        socket.emit("update");
 
         socket.on("join", function (data) {
-            if (data.id !== {{ g.user.id }}) {
+            if (data.id !== "{{ g.user.id }}") {
                 const userCardTemplate = `
     <div class="user-card" id="user-${data.id}">
-        <div class="side-by-side">
-            <h3 class="user-name">${data.name}</h3>
-            <p class="user-score">${data.score * 100} %</p>
-        </div>
+        <h3 class="user-name">
+            <span class="side-by-side">
+                <span>${data.name}</span>
+                <span>${Math.round(data.score * 100)} %</span>
+            </span>
+        </h3>
         <a href="/user/profile/${data.id}">uwu \></a>
     </div>
 `;
@@ -48,6 +55,7 @@
             poke.className = 'new-poke'
             poke.textContent = 'new poke uwu';
             document.getElementById('new-things').appendChild(poke);
+            socket.emit("update");
         })
 
         socket.on("message", function () {
@@ -55,6 +63,12 @@
             message.className = 'new-message';
             message.textContent = 'new message, who is this';
             document.getElementById('new-things').appendChild(message);
+            socket.emit("update");
+        })
+
+        socket.on("update", function (data) {
+            document.getElementById(`count-unacked-pokes`).textContent = data.unacked_pokes
+            document.getElementById('count-messages').textContent = data.messages
         })
     </script>
 {% endblock %}
@@ -63,6 +77,11 @@
 
 {% block content %}
     <h1>Welcome to The Lobby</h1>
+    <p>see other beings that are currently also in The Lobby</p>
+    <p>
+        <span id="count-unacked-pokes">0</span> unacked pokes,
+        <span id="count-messages">0</span> messages
+    </p>
     <div class="column">
         <a href="/user/me">my profile (pokes, messages) ></a>
     </div>

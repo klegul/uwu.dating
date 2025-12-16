@@ -7,24 +7,26 @@
         <a href="/">< lobby</a>
     </div>
     <div class="user-profile">
-        <div class="side-by-side">
-            <div>
-                <h2>{{ g.profile_user.name }}</h2>
-                <div class="profile-fact">
-                    <object data="{{ url_for('static', filename='icons/phone.svg') }}" type="image/svg+xml"></object>
-                    <p>{{ g.profile_user.dect }}</p>
-                </div>
-                <div class="profile-fact">
-                    <object data="{{ url_for('static', filename='icons/location.svg') }}" type="image/svg+xml"></object>
-                    <p>{{ g.profile_user.meeting_point }}</p>
-                </div>
-                <div class="actions">
-                    <a href="{{ url_for('poke.poke', user_id=g.profile_user.id) }}">poke ></a>
-                    <a href="{{ url_for('message.send', recipient_id=g.profile_user.id) }}">send message ></a>
-                    <a href="{{ url_for('user.report', id=g.profile_user.id) }}">report ></a>
-                </div>
+        <div>
+            <h2>
+                <span class="side-by-side">
+                    <span>{{ g.profile_user.name }}</span>
+                    <span>{{ g.user_score }}%</span>
+                </span>
+            </h2>
+            <div class="profile-fact">
+                <object data="{{ url_for('static', filename='icons/phone.svg') }}" type="image/svg+xml"></object>
+                <p>{{ g.profile_user.dect }}</p>
             </div>
-            <p>{{ g.user_score * 100 }}%</p>
+            <div class="profile-fact">
+                <object data="{{ url_for('static', filename='icons/location.svg') }}" type="image/svg+xml"></object>
+                <p>{{ g.profile_user.meeting_point }}</p>
+            </div>
+            <div class="actions">
+                <a href="{{ url_for('poke.poke', user_id=g.profile_user.id) }}">poke ></a>
+                <a href="{{ url_for('message.send', recipient_id=g.profile_user.id) }}">send message ></a>
+                <a href="{{ url_for('user.report', user_id=g.profile_user.id) }}">report ></a>
+            </div>
         </div>
 
         <h3>Quwuestions</h3>

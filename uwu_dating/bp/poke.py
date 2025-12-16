@@ -7,9 +7,9 @@ from uwu_dating.db import create_poke, get_poke, ack_poke
 
 bp = Blueprint('poke', __name__, url_prefix='/poke')
 
-@bp.route('/poke/<int:user_id>', methods=['GET'])
+@bp.route('/poke/<user_id>', methods=['GET'])
 @user_required
-def poke(user_id: int):
+def poke(user_id: str):
     create_poke(g.user.id, user_id)
 
     user_sid = None
@@ -21,13 +21,13 @@ def poke(user_id: int):
 
     return redirect(url_for('lobby.index'))
 
-@bp.route('/ack/<int:id>', methods=['GET'])
+@bp.route('/ack/<poke_id>', methods=['GET'])
 @user_required
-def ack(id: int):
-    poke = get_poke(id)
+def ack(poke_id: str):
+    poke = get_poke(poke_id)
     if poke.poked_id != g.user.id:
         return 'Please do not do evil things :c'
 
-    ack_poke(id)
+    ack_poke(poke_id)
     return redirect(url_for('user.me'))
 

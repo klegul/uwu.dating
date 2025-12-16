@@ -7,9 +7,9 @@ from uwu_dating.db import create_message, get_user, delete_message
 
 bp = Blueprint('message', __name__, url_prefix='/message')
 
-@bp.route('/send/<int:recipient_id>', methods=['GET', 'POST'])
+@bp.route('/send/<recipient_id>', methods=['GET', 'POST'])
 @user_required
-def send(recipient_id: int):
+def send(recipient_id: str):
     if request.method == 'POST':
         content = request.form['content']
 
@@ -22,15 +22,15 @@ def send(recipient_id: int):
 
         lobby_socket.emit('message', to=user_sid)
 
-        return redirect(url_for('user.profile', id=recipient_id))
+        return redirect(url_for('user.profile', user_id=recipient_id))
 
     g.recipient = get_user(recipient_id)
 
     return render_template('message.html')
 
-@bp.route('/delete/<int:id>', methods=['GET'])
+@bp.route('/delete/<message_id>', methods=['GET'])
 @user_required
-def delete(id: int):
-    delete_message(id)
+def delete(message_id: str):
+    delete_message(message_id)
 
     return redirect(url_for('user.me'))

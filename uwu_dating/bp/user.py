@@ -25,7 +25,7 @@ def load_logged_in_user():
 def user_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        if g.user is None:
+        if 'user' not in g or g.user is None:
             return redirect(url_for('welcome.index'))
 
         return view(**kwargs)
@@ -63,14 +63,14 @@ def logout():
     return redirect(url_for('welcome.index'))
 
 
-@bp.route('/profile/<int:id>', methods=['GET'])
+@bp.route('/profile/<user_id>', methods=['GET'])
 @user_required
-def profile(id: int):
-    g.profile_user = get_user(id)
+def profile(user_id: str):
+    g.profile_user = get_user(user_id)
 
     g.questions_answers = get_user_answers_for_questions(g.profile_user.id)
 
-    g.user_score = get_user_score(g.user, g.profile_user)
+    g.user_score = round(get_user_score(g.user, g.profile_user) * 100)
 
     return render_template('user/profile.html')
 
@@ -105,10 +105,10 @@ def me():
 
     return render_template('user/me.html')
 
-@bp.route('/report/<int:id>', methods=['GET'])
+@bp.route('/report/<user_id>', methods=['GET'])
 @user_required
-def report(id: int):
+def report(user_id: int):
     url = os.environ.get('REPORT_URL')
-    requests.post(url, json={'reporter_id': g.user.id, "reported_id": id})
+    requests.post(url, json={'reporter_id': g.user.id, "reported_id": user_id})
 
     return redirect(url_for('lobby.index'))

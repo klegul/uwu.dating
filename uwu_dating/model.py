@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class User:
-    id: int
+    id: str
     name: str
     dect: str
     meeting_point: str
@@ -27,20 +27,20 @@ class AnswerChoice:
 @dataclass(frozen=True)
 class UserAnswer:
     question_number: int
-    user_id: int
+    user_id: str
     answer: str
 
 @dataclass(frozen=True)
 class Poke:
-    id: int
-    poker_id: int
-    poked_id: int
+    id: str
+    poker_id: str
+    poked_id: str
     acked: bool
 
 @dataclass(frozen=True)
 class Message:
-    id: int
-    sender_id: int
-    recipient_id: int
+    id: str
+    sender_id: str
+    recipient_id: str
     content: str
     timestamp: int

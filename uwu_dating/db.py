@@ -1,5 +1,6 @@
 import sqlite3
 import time
+import uuid
 from datetime import datetime
 from typing import List, Dict, Any
 
@@ -54,14 +55,14 @@ def init_app(app):
 
 def create_user(name: str, dect: str, meeting_point: str) -> User:
     db = get_db()
-    db.execute('INSERT INTO user (name, dect, meeting_point) VALUES (?, ?, ?)', (name, dect, meeting_point))
+    user_id = str(uuid.uuid4())
+    db.execute('INSERT INTO user (id, name, dect, meeting_point) VALUES (?, ?, ?, ?)', (user_id, name, dect, meeting_point))
     db.commit()
 
-    user_id = db.execute('SELECT id FROM user WHERE name = ?', (name,)).fetchone()[0]
     return User(id=user_id, name=name, dect=dect, meeting_point=meeting_point)
 
 
-def get_user(user_id: int) -> User:
+def get_user(user_id: str) -> User:
     db = get_db()
     user = db.execute('SELECT * FROM user WHERE id = ?', (user_id,)).fetchone()
     if user is None:
@@ -69,7 +70,7 @@ def get_user(user_id: int) -> User:
     return _parse_user(user)
 
 
-def user_exists(user_id: int) -> bool:
+def user_exists(user_id: str) -> bool:
     db = get_db()
     return db.execute('SELECT COUNT(*) FROM user WHERE id = ?', (user_id,)).fetchone()[0] > 0
 
@@ -88,7 +89,7 @@ def count_users() -> int:
     return db.execute('SELECT COUNT(*) FROM user').fetchone()[0]
 
 
-def create_user_answer(user_id: int, question_number: int, answer: str) -> UserAnswer:
+def create_user_answer(user_id: str, question_number: int, answer: str) -> UserAnswer:
     db = get_db()
 
     count = db.execute('SELECT COUNT(*) FROM user_answer WHERE user_id = ? and question_number = ?',
@@ -118,7 +119,7 @@ def get_question(number: int) -> Question:
     return _parse_question(question)
 
 
-def get_user_answers_for_questions(user_id: int) -> Dict[Question, UserAnswer]:
+def get_user_answers_for_questions(user_id: str) -> Dict[Question, UserAnswer]:
     db = get_db()
     user_answers = db.execute('SELECT * FROM user_answer WHERE user_id = ? ORDER BY question_number',
                               (user_id,)).fetchall()
@@ -143,16 +144,15 @@ def get_answer_choices() -> List[AnswerChoice]:
     return result_list
 
 
-def create_poke(poker_id: int, poked_id: int) -> Poke:
+def create_poke(poker_id: str, poked_id: str) -> Poke:
     db = get_db()
-    cursor = db.cursor()
-    cursor.execute('INSERT INTO poke (poker_id, poked_id, acked) VALUES (?, ?, ?)', (poker_id, poked_id, 0))
-    poke_id = cursor.lastrowid
+    poke_id = str(uuid.uuid4())
+    db.execute('INSERT INTO poke (id, poker_id, poked_id, acked) VALUES (?, ?, ?, ?)', (poke_id, poker_id, poked_id, 0))
     db.commit()
     return Poke(id=poke_id, poker_id=poker_id, poked_id=poked_id, acked=False)
 
 
-def get_unacked_pokes(poked_id: int) -> List[Poke]:
+def get_unacked_pokes(poked_id: str) -> List[Poke]:
     db = get_db()
     pokes = db.execute('SELECT * FROM poke WHERE poked_id = ? AND acked = 0', (poked_id,)).fetchall()
     result_list: List[Poke] = []
@@ -161,17 +161,17 @@ def get_unacked_pokes(poked_id: int) -> List[Poke]:
     return result_list
 
 
-def get_poke(id: int) -> Poke:
+def get_poke(poke_id: str) -> Poke:
     db = get_db()
-    poke = db.execute('SELECT * FROM poke WHERE id = ?', (id,)).fetchone()
+    poke = db.execute('SELECT * FROM poke WHERE id = ?', (poke_id,)).fetchone()
     if poke is None:
         raise Exception('No such poke')
     return _parse_poke(poke)
 
 
-def ack_poke(id: int) -> None:
+def ack_poke(poke_id: str) -> None:
     db = get_db()
-    db.execute('UPDATE poke SET acked = ? WHERE id = ?', (True, id))
+    db.execute('UPDATE poke SET acked = ? WHERE id = ?', (True, poke_id))
     db.commit()
 
 
@@ -184,19 +184,22 @@ def count_acked_pokes() -> int:
     db = get_db()
     return db.execute('SELECT COUNT(*) FROM poke WHERE acked = 1').fetchone()[0]
 
-
-def create_message(sender_id: int, recipient_id: int, content: str) -> Message:
+def count_unacked_pokes(user_id: str) -> int:
     db = get_db()
-    cursor = db.cursor()
+    return db.execute('SELECT COUNT(*) FROM poke WHERE acked = 0 AND poked_id = ?', (user_id,)).fetchone()[0]
+
+
+def create_message(sender_id: str, recipient_id: str, content: str) -> Message:
+    db = get_db()
     timestamp = int(time.time())
-    cursor.execute('INSERT INTO message (sender_id, recipient_id, content, timestamp) VALUES (?, ?, ?, ?)',
-                   (sender_id, recipient_id, content, timestamp))
-    message_id = cursor.lastrowid
+    message_id = str(uuid.uuid4())
+    db.execute('INSERT INTO message (id, sender_id, recipient_id, content, timestamp) VALUES (?, ?, ?, ?, ?)',
+                   (message_id, sender_id, recipient_id, content, timestamp))
     db.commit()
     return Message(id=message_id, sender_id=sender_id, recipient_id=recipient_id, content=content, timestamp=timestamp)
 
 
-def get_messages(recipient_id: int) -> List[Message]:
+def get_messages(recipient_id: str) -> List[Message]:
     db = get_db()
     messages = db.execute('SELECT * FROM message WHERE recipient_id = ?', (recipient_id,)).fetchall()
     result_list: List[Message] = []
@@ -205,15 +208,19 @@ def get_messages(recipient_id: int) -> List[Message]:
     return result_list
 
 
-def delete_message(id: int) -> None:
+def delete_message(message_id: str) -> None:
     db = get_db()
-    db.execute('DELETE FROM message WHERE id = ?', (id,))
+    db.execute('DELETE FROM message WHERE id = ?', (message_id,))
     db.commit()
 
 
 def count_messages() -> int:
     db = get_db()
     return db.execute('SELECT COUNT(*) FROM message').fetchone()[0]
+
+def count_user_messages(user_id: str) -> int:
+    db = get_db()
+    return db.execute('SELECT COUNT(*) FROM message WHERE recipient_id = ?', (user_id,)).fetchone()[0]
 
 
 def _parse_user(db_user: Dict[str, Any]) -> User:

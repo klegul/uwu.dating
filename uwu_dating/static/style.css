@@ -102,7 +102,6 @@ select {
     background: #151B23;
     color: white;
     border: #3D444D 1px solid;
-    border-radius: 5px;
     padding: 5px;
 }
 
@@ -110,7 +109,6 @@ textarea {
     background: #151B23;
     color: white;
     border: #3D444D 1px solid;
-    border-radius: 5px;
     padding: 5px;
     transition: border 0.1s ease-in;
 }
@@ -191,6 +189,7 @@ textarea:focus {
 .actions {
     display: flex;
     flex-direction: row;
+    margin-bottom: 20px;
 }
 
 .actions a {
@@ -204,6 +203,10 @@ textarea:focus {
 
 .column a {
     margin-bottom: 10px;
+}
+
+.message {
+    margin: 20px 0;
 }
 
 .message-sender {
@@ -220,5 +223,5 @@ textarea:focus {
 }
 
 .help-text {
-    margin: 30px 10px 10px;
+    margin: 0 10px 10px;
 }
