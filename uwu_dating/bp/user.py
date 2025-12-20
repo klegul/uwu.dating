@@ -56,6 +56,7 @@ def create():
             user = create_user(name, dect, meeting_point)
 
             session.clear()
+            session.permanent = True
             session['user_id'] = user.id
 
             return redirect(url_for('question.answer', number=1))
